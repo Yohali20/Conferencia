@@ -1,0 +1,67 @@
+function valida_vacios(){
+
+    if($('#correo').val() == ""){
+        Swal.fire({
+            icon: 'error',
+            title: `Oooops`,
+            text: '\n\n Falta ingresar el correo',
+            showConfirmButton: true,
+            toast: true,
+            
+        });
+        return false;
+    }else if($('#contraseña').val() == ""){
+        Swal.fire({
+            icon: "error",
+            title: `Oooops`,
+            text: '\n\n Falta ingresar la contraseña',
+            showConfirmButton: true,
+            toast: true,
+            
+        });
+        return false; 
+    }else{
+        $.ajax({
+            type: 'POST',
+            data: $('#frm_login'),
+            url: "php/sesion.php",
+            success(r){
+                if(r == 1){
+          
+                    swal({
+                      title: "Exito!",
+                      text: "Ha sido logueado con exito",
+                      icon: "success",
+                      button: "Ok!",
+                    }).then(() =>{
+                        vista = "inicio";
+                        login_success(vista);
+                        
+                    });
+                  }else{
+                    swal({
+                      title: "Error!",
+                      text: "Sus credenciales de acceso son incorrectas",
+                      icon: "error",
+                      button: "Ok!",
+                    });
+                  }
+            }
+
+        });
+    }
+   
+}
+
+
+
+
+
+$(document).ready(function(){
+
+    $('#btn_entrar').click(function(){
+        valida_vacios();
+    });
+
+
+}); 
